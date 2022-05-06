@@ -23,7 +23,7 @@ class Range {
             : { done: true };
       },
 
-      [Symbol.iterator]() { return this; };
+      [Symbol.iterator]() { return this; }
     };
   };
 }
