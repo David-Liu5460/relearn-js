@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- <script>
+     function* foo() {
+      console.log("111");
+      yield "Hello";
+      console.log("222");
+      yield "World";
+      console.log("333");
+      yield "coderwhy";
+      console.log("444");
+    }
+
+    // iterator: 迭代器
+    const result = foo ();
+    console.log(result);
+
+    // 调用一次next, 就会消耗一次迭代器
+    const res1 = result.next();
+    console.log(res1);
+    const res2 = result.next();
+    console.log(res2);
+    const res3 = result.next();
+    console.log(res3);
+    const res4 =result.next();
+    console.log(res4);
+  </script> -->
+  <script>
+    function* generateNumber () {
+      for (var i = 0; i <= 10; i++) {
+        yield i;
+      }
+    }
+    const numIt = generateNumber ();
+    console.log(numIt.next().value);
+    console.log(numIt.next().value);
+    console.log(numIt.next().value);
+    console.log(numIt.next().value);
+  </script>
+
+  <script>
+    function* bar () {
+      console.log('11111');
+      const result = yield new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('Hello, Generator');
+        }, 3000);
+      })
+    }
+
+    const it = bar();
+    console.log(it);
+    it.next().value.then(res => {
+      console.log(res);
+      it.next(res);
+    })
+  </script>
+</body>
+</html>
