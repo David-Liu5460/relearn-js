@@ -55,26 +55,79 @@ let p4 = () => {
 //   console.log(result.value);
 // }
 
-function * iterator (arr = [p1,p2,p3,p4]) {
- for (let i = 0; i < arr.length; i++) {
-   yield arr[i]();
- }
+// function * iterator (arr = [p1,p2,p3,p4]) {
+//  for (let i = 0; i < arr.length; i++) {
+//    yield arr[i]();
+//  }
+// }
+
+// function run(gen) {
+//   const g = gen()
+
+//   function next() {
+//       const result = g.next()
+//       if (result.done) return result.value
+//       result.value.then(function (data) {
+//           next()
+//       })
+//   }
+
+//   next()
+// }
+
+// run(iterator);
+
+let obj1 = {
+  "a": 1,
+  "$a": 2
 }
-
-function run(gen) {
-  const g = gen()
-
-  function next() {
-      const result = g.next()
-      if (result.done) return result.value
-      result.value.then(function (data) {
-          next()
+function a (obj) {
+  Object.keys(obj).forEach(item => {
+    let value = obj[item];
+    if (item.indexOf('$') > -1) {
+      Object.defineProperty(obj, item, {
+        get() {
+            let newItem = item.replace('$', '');
+            // console.log(obj[newItem], 22222)
+            return obj[newItem];
+      
+        }
       })
-  }
-
-  next()
+    }
+  })
+  // for (let item in obj) {
+  //   if (item.indexOf('$') > -1) {
+  //     Object.defineProperty(obj, item, {
+  //       get() {
+  //         let newItem = item.replace('$', '');
+  //         // console.log(obj[newItem], 22222)
+  //         return obj[newItem];
+  //       }
+  //     })
+  //   }
+  // }
 }
 
-run(iterator);
+function b(obj) {
+  for (let key in obj) {
+      if (key && key.indexOf('$') > -1) {
+          Object.defineProperty(obj, key, {
+              get() {
+                  let value = obj[key.replace('$', '')];
+                  const type = Object.prototype.toString.call(value);
+                  if (type === '[object Array]' || type === '[object Object]') {
+                      value = JSON.stringify(value);
+                  }
+                  return value;
+              }
+          })
+      }
+  }
+}
+
+a(obj1);
+
+
+console.log(obj1['$a']);
 
 
